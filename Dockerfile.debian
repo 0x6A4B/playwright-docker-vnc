@@ -1,0 +1,32 @@
+FROM debian:bookworm
+
+LABEL maintainer="0x6A4B <0x6A4B@proton.me>"
+
+ENV DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC
+
+RUN apt-get update && \
+    apt-get -qy full-upgrade && \
+    apt-get install -qy git \
+    wget \
+# Minimal X environment
+    xorg \
+    xinit \
+    openbox \
+    tint2 \
+# NPM and VIM
+    npm \
+    neovim \
+# VNC
+    x11vnc  \
+    xvfb && \
+# Clean up
+    apt-get autoclean -qy && \
+    apt-get autoremove -qy
+
+RUN echo "exec openbox &" >> /root/.bashrc && \
+    echo "exec tint2 &" >> /root/.bashrc && \
+    echo "cd /home/playwright" >> /root/.bashrc
+
+EXPOSE 9323
+
+CMD ["x11vnc", "-create", "-forever"]
