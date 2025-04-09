@@ -19,5 +19,10 @@ test
 podman run -it --rm  --net=host -v ./test:/home/playwright --name test test:latest bash
 ```
 
+```
+websockify --web /usr/share/novnc 8080 localhost:5900 &
+x11vnc -create -forever -shared
+```
+
 # Change resolution 
 xrandr --fb 1024x768
